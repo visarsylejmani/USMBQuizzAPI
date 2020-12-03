@@ -12,53 +12,53 @@ namespace USMBAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentController : ControllerBase
+    public class ClassController : ControllerBase
     {
 
-        private readonly StudentRepository studentRepository;
+        private readonly ClassRepository classRepository;
         private readonly IConfiguration _config;
 
-        public StudentController(IConfiguration config)
+        public ClassController(IConfiguration config)
         {
             _config = config;
-            studentRepository = new StudentRepository(_config);
+            classRepository = new ClassRepository(_config);
         }
         // GET: api/<ValuesController>
         [HttpGet]
-        public IEnumerable<Student> Get()
+        public IEnumerable<Class> Get()
         {
-            return studentRepository.GetAll();
+            return classRepository.GetAll();
         }
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        public Student Get(int id)
+        public Class Get(int id)
         {
-            return studentRepository.GetById(id);
+            return classRepository.GetById(id);
         }
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] Student student)
+        public void Post([FromBody] Class _class)
         {
             if (ModelState.IsValid)
-                studentRepository.Add(student);
+                classRepository.Add(_class);
         }
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Student student)
+        public void Put(int id, [FromBody] Class _class)
         {
-            student.StudentID = id;
+            _class.ClassID = id;
             if (ModelState.IsValid)
-                studentRepository.Update(student);
+                classRepository.Update(_class);
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            studentRepository.Delete(id);
+            classRepository.Delete(id);
         }
     }
 }

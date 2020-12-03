@@ -4,12 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using USMBQuizzAPI.Models;
-using USMBQuizzAPI.Repositories;
+using USMBAPI.Models;
+using USMBAPI.Repositories;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace USMBQuizzAPI.Controllers
+namespace USMBAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -17,7 +16,7 @@ namespace USMBQuizzAPI.Controllers
     {
 
         private readonly ProfessorRepository professorRepository;
-        private IConfiguration _config;
+        private readonly IConfiguration _config;
 
         public ProfessorController(IConfiguration config)
         {

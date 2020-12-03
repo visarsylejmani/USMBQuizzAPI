@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace USMBQuizzAPI.Models
+namespace USMBAPI.Models
 {
     public class StudentQuestion
     {
