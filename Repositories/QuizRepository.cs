@@ -36,20 +36,20 @@ namespace USMBQuizzAPI.Repositories
             dbConnection.Open();
             return dbConnection.Query<Quiz>(sQuery);
         }
-        public Quiz GetById(int QuizID)
+        public Quiz GetById(int quizID)
         {
             using IDbConnection dbConnection = getConnection();
             string sQuery = @"SELECT * FROM `Quizzes` WHERE `QuizID` = @QuizID";
             dbConnection.Open();
-            return dbConnection.Query<Quiz>(sQuery, new { QuizID = QuizID }).FirstOrDefault();
+            return dbConnection.Query<Quiz>(sQuery, new { QuizID = quizID }).FirstOrDefault();
         }
 
-        public void Delete(int QuizID)
+        public void Delete(int quizID)
         {
             using IDbConnection dbConnection = getConnection();
             string sQuery = @"DELETE FROM `Quizzes` WHERE `QuizID` = @QuizID";
             dbConnection.Open();
-            dbConnection.Execute(sQuery, new { QuizID = QuizID });
+            dbConnection.Execute(sQuery, new { QuizID = quizID });
 
         }
         public void Update(Quiz quiz)
