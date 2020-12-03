@@ -42,7 +42,6 @@ namespace USMBAPI.Controllers
         public void Post([FromBody] Quiz quiz)
         {
             if (ModelState.IsValid)
-                quiz.ClassID = (int)quiz.ClassID;
                 quizRepository.Add(quiz);
         }
 
