@@ -25,7 +25,9 @@ namespace USMBAPI.Repositories
         public void Add(Quiz quiz)
         {
             using IDbConnection dbConnection = GetConnection();
-            string sQuery = @"INSERT INTO `Quizzes`(`Title`, `ClassID`) VALUES (@Title,@ClassID))";
+            Console.WriteLine(quiz.ClassID.GetType());
+            Console.WriteLine(quiz.Title.GetType());
+            string sQuery = @"INSERT INTO `Quizzes`(`Title`, `ClassID`) VALUES (@Title,@ClassID)";
             dbConnection.Open();
             dbConnection.Execute(sQuery, quiz);
         }
