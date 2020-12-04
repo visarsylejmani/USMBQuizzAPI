@@ -38,6 +38,12 @@ namespace USMBAPI.Controllers
         {
             return classRepository.GetById(id);
         }
+        [HttpGet]
+        [Route("GetByProfessorID/{id}")]
+        public IEnumerable<Class> GetByProfessorID(int id)
+        {
+            return classRepository.GetByProfessorID(id);
+        }
 
         // POST api/<ValuesController>
         [HttpPost]

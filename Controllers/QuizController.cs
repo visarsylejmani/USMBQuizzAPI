@@ -70,11 +70,5 @@ namespace USMBAPI.Controllers
             questionRepository.DeleteByQuizID(id);
             quizRepository.Delete(id);
         }
-        [HttpDelete]
-        [Route("GetByClassID/{id}")]
-        public void GetByQuizID(int id)
-        {
-            quizRepository.DeleteByClassID(id);
-        }
     }
 }

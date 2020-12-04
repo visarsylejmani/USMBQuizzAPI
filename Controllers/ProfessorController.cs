@@ -16,12 +16,14 @@ namespace USMBAPI.Controllers
     {
 
         private readonly ProfessorRepository professorRepository;
+        private readonly ClassRepository classRepository;
         private readonly IConfiguration _config;
 
         public ProfessorController(IConfiguration config)
         {
             _config = config;
             professorRepository = new ProfessorRepository(_config);
+            classRepository = new ClassRepository(_config);
         }
         // GET: api/<ValuesController>
         [HttpGet]
@@ -58,6 +60,7 @@ namespace USMBAPI.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            classRepository.DeleteByProfessorID(id);
             professorRepository.Delete(id);
         }
     }
