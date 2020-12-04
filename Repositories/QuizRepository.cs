@@ -38,6 +38,7 @@ namespace USMBAPI.Repositories
             dbConnection.Open();
             return dbConnection.Query<Quiz>(sQuery);
         }
+
         public Quiz GetById(int id)
         {
             using IDbConnection dbConnection = GetConnection();
