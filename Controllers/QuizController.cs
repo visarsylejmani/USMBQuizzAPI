@@ -16,12 +16,14 @@ namespace USMBAPI.Controllers
     {
 
         private readonly QuizRepository quizRepository;
+        private readonly QuestionRepository questionRepository;
         private readonly IConfiguration _config;
 
         public QuizController(IConfiguration config)
         {
             _config = config;
             quizRepository = new QuizRepository(_config);
+            questionRepository = new QuestionRepository(_config);
         }
         // GET: api/<ValuesController>
         [HttpGet]
@@ -66,6 +68,13 @@ namespace USMBAPI.Controllers
         public void Delete(int id)
         {
             quizRepository.Delete(id);
+            questionRepository.DeleteByQuizID(id);
+        }
+        [HttpDelete]
+        [Route("GetByClassID/{id}")]
+        public void GetByQuizID(int id)
+        {
+            quizRepository.DeleteByClassID(id);
         }
     }
 }

@@ -61,6 +61,14 @@ namespace USMBAPI.Repositories
             dbConnection.Execute(sQuery, new { QuestionID = id });
 
         }
+        public void DeleteByQuizID(int id)
+        {
+            using IDbConnection dbConnection = GetConnection();
+            string sQuery = @"DELETE FROM `Questions` WHERE `QuizID` = @QuizID";
+            dbConnection.Open();
+            dbConnection.Query(sQuery, new { QuizID = id });
+
+        }
         public void Update(Question question)
         {
             using IDbConnection dbConnection = GetConnection();
