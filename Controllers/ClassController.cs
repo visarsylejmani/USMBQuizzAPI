@@ -29,10 +29,10 @@ namespace USMBAPI.Controllers
         {
             return classRepository.GetAll();
         }
-        [HttpGet("{id}")]
-        public IEnumerable<Quiz> GetQuizzes(int id)
+        [HttpGet]
+        public IEnumerable<Quiz> GetQuizzes(int classid)
         {
-            return classRepository.GetQuizzes(id);
+            return classRepository.GetQuizzes(classid);
         }
 
         // GET api/<ValuesController>/5
