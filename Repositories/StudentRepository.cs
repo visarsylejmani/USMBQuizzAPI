@@ -60,5 +60,13 @@ namespace USMBAPI.Repositories
             dbConnection.Query(sQuery, student);
 
         }
+
+        internal Student Authenticate(Student student)
+        {
+            using IDbConnection dbConnection = GetConnection();
+            string sQuery = @"SELECT * FROM `Students` WHERE `Email` = @Email AND `Password` = @Password";
+            dbConnection.Open();
+            return dbConnection.Query<Student>(sQuery, student).FirstOrDefault();
+        }
     }
 }

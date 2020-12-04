@@ -20,7 +20,8 @@ namespace USMBQuizzAPI.Controllers
         {
             this.jwtAuthentication = jwtAuthentication;
         }
-        [HttpPost("login")]
+        [Route("professor/login")]
+        [HttpPost]
         [AllowAnonymous]
         public IActionResult Authenticate([FromBody] Professor professor)
         {
@@ -30,7 +31,20 @@ namespace USMBQuizzAPI.Controllers
             if (token == null)
                 return Unauthorized(new { Toast = " Erreur mot de passe ou email " });
 
-            return Ok(new { Token = token, Toast = "Vous etes connectées" });
+            return Ok(new { Token = token, Toast = "Connection réussie" });
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("student/login")]
+        public IActionResult Authenticate([FromBody] Student student)
+        {
+            string token = null;
+            if (ModelState.IsValid)
+                token = jwtAuthentication.Authenticate(student);
+            if (token == null)
+                return Unauthorized(new { Toast = " Erreur mot de passe ou email " });
+
+            return Ok(new { Token = token, Toast = "Connection réussie" });
         }
     }
 }

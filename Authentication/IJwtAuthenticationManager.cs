@@ -5,6 +5,6 @@ namespace USMBQuizzAPI.Authentication
     public interface IJwtAuthenticationManager
     {
         public string Authenticate(Professor professor);
-    
+        string Authenticate(Student student);
     }
 }
