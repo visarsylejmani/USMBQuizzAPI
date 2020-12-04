@@ -16,18 +16,12 @@ namespace USMBAPI.Controllers
     {
 
         private readonly ProfessorRepository professorRepository;
-        private readonly ClassRepository classRepository;
-        private readonly QuizRepository quizRepository;
-        private readonly QuestionRepository questionRepository;
         private readonly IConfiguration _config;
 
         public ProfessorController(IConfiguration config)
         {
             _config = config;
             professorRepository = new ProfessorRepository(_config);
-            classRepository = new ClassRepository(_config);
-            quizRepository = new QuizRepository(_config);
-            questionRepository = new QuestionRepository(_config);
         }
         // GET: api/<ValuesController>
         [HttpGet]
