@@ -37,6 +37,13 @@ namespace USMBAPI.Controllers
             return quizRepository.GetById(id);
         }
 
+        [HttpGet]
+        [Route("GetQuizzesByClassID/{id}")]
+        public IEnumerable<Quiz> GetQuizzesByClassID(int id)
+        {
+            return quizRepository.GetByClassID(id);
+        }
+
         // POST api/<ValuesController>
         [HttpPost]
         public void Post([FromBody] Quiz quiz)
