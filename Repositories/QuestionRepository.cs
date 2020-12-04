@@ -42,7 +42,7 @@ namespace USMBAPI.Repositories
             using IDbConnection dbConnection = GetConnection();
             string sQuery = @"SELECT * FROM `Questions` WHERE `QuestionID` = @QuestionID";
             dbConnection.Open();
-            return dbConnection.Query<Question>(sQuery, new { QuizID = id }).FirstOrDefault();
+            return dbConnection.Query<Question>(sQuery, new { QuestionID = id }).FirstOrDefault();
         }
 
         public IEnumerable<Question> GetByQuizID(int id)
