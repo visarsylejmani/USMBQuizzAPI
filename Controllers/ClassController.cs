@@ -60,8 +60,8 @@ namespace USMBAPI.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            classRepository.Delete(id);
             quizRepository.DeleteByClassID(id);
+            classRepository.Delete(id);
         }
     }
 }
