@@ -36,6 +36,14 @@ namespace USMBAPI.Repositories
             dbConnection.Open();
             return dbConnection.Query<Class>(sQuery);
         }
+        public IEnumerable<Quiz> GetQuizzes(int id)
+        {
+            using IDbConnection dbConnection = GetConnection();
+            string sQuery = @"SELECT * FROM `Quizzes` WERE `ClassID`=@ClassID";
+            dbConnection.Open();
+            return dbConnection.Query<Quiz>(sQuery, new { ClassID = id });
+        }
+
         public Class GetById(int id)
         {
             using IDbConnection dbConnection = GetConnection();

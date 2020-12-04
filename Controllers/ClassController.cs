@@ -29,6 +29,11 @@ namespace USMBAPI.Controllers
         {
             return classRepository.GetAll();
         }
+        [HttpGet("{id}/getquizzes")]
+        public IEnumerable<Quiz> GetQuizzes(int id)
+        {
+            return classRepository.GetQuizzes(id);
+        }
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
