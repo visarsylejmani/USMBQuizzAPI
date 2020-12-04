@@ -53,14 +53,6 @@ namespace USMBAPI.Repositories
             return dbConnection.Query<Class>(sQuery, new { ProfessorID = id });
         }
 
-        internal void DeleteByProfessorID(int id)
-        {
-            using IDbConnection dbConnection = GetConnection();
-            string sQuery = @"DELETE FROM `Classes` WHERE `ProfessorID` = @ProfessorID";
-            dbConnection.Open();
-            dbConnection.Query(sQuery, new { ProfessorID = id });
-        }
-
         public void Delete(int id)
         {
             using IDbConnection dbConnection = GetConnection();
