@@ -12,60 +12,60 @@ namespace USMBAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class QuizController : ControllerBase
+    public class QuestionController : ControllerBase
     {
 
-        private readonly QuizRepository quizRepository;
+        private readonly QuestionRepository questionRepository;
         private readonly IConfiguration _config;
 
-        public QuizController(IConfiguration config)
+        public QuestionController(IConfiguration config)
         {
             _config = config;
-            quizRepository = new QuizRepository(_config);
+            questionRepository = new QuestionRepository(_config);
         }
         // GET: api/<ValuesController>
         [HttpGet]
-        public IEnumerable<Quiz> Get()
+        public IEnumerable<Question> Get()
         {
-            return quizRepository.GetAll();
+            return questionRepository.GetAll();
         }
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        public Quiz Get(int id)
+        public Question Get(int id)
         {
-            return quizRepository.GetById(id);
+            return questionRepository.GetById(id);
         }
 
         [HttpGet]
-        [Route("GetByClassID/{id}")]
-        public IEnumerable<Quiz> GetQuizzesByClassID(int id)
+        [Route("GetByQuizID/{id}")]
+        public IEnumerable<Question> GetQuestionsByQuizID(int id)
         {
-            return quizRepository.GetByClassID(id);
+            return questionRepository.GetByQuizID(id);
         }
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] Quiz quiz)
+        public void Post([FromBody] Question question)
         {
             if (ModelState.IsValid)
-                quizRepository.Add(quiz);
+                questionRepository.Add(question);
         }
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Quiz quiz)
+        public void Put(int id, [FromBody] Question question)
         {
-            quiz.QuizID = id;
+            question.QuestionID = id;
             if (ModelState.IsValid)
-                quizRepository.Update(quiz);
+                questionRepository.Update(question);
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            quizRepository.Delete(id);
+            questionRepository.Delete(id);
         }
     }
 }
