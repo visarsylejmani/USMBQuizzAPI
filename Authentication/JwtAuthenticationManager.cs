@@ -24,7 +24,7 @@ namespace USMBQuizzAPI.Authentication
         }
         public string Authenticate(Professor professor)
         {
-            if (!professorRepository.Authenticate(professor))
+            if (professorRepository.Authenticate(professor) == null)
             {
                 return null;
             }
