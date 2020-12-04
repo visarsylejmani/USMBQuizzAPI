@@ -39,7 +39,7 @@ namespace USMBAPI.Controllers
 
         [HttpGet]
         [Route("GetByClassID/{id}")]
-        public IEnumerable<Quiz> GetQuizzesByClassID(int id)
+        public IEnumerable<Quiz> GetByClassID(int id)
         {
             return quizRepository.GetByClassID(id);
         }

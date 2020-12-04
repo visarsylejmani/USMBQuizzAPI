@@ -29,6 +29,15 @@ namespace USMBAPI.Repositories
             dbConnection.Open();
             dbConnection.Execute(sQuery, professor);
         }
+
+        internal bool Authenticate(Professor professor)
+        {
+            using IDbConnection dbConnection = GetConnection();
+            string sQuery = @"SELECT * FROM `Professors` WHERE `Email` = @Email AND `Password` = @Password";
+            dbConnection.Open();
+            return dbConnection.Query(sQuery, professor).FirstOrDefault();
+        }
+
         public IEnumerable<Professor> GetAll()
         {
             using IDbConnection dbConnection = GetConnection();
