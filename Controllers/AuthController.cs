@@ -29,7 +29,7 @@ namespace USMBQuizzAPI.Controllers
             if (ModelState.IsValid)
                 token = jwtAuthentication.Authenticate(professor);
             if (token == null)
-                return Unauthorized(new { Toast = " Erreur mot de passe ou email " });
+                return Unauthorized(new { Toast = "Mot de passe ou Email erroné" });
 
             return Ok(new { Token = token, Toast = "Connection réussie" });
         }
@@ -42,7 +42,7 @@ namespace USMBQuizzAPI.Controllers
             if (ModelState.IsValid)
                 token = jwtAuthentication.Authenticate(student);
             if (token == null)
-                return Unauthorized(new { Toast = " Erreur mot de passe ou email " });
+                return Unauthorized(new { Toast = "Mot de passe ou Email erroné" });
 
             return Ok(new { Token = token, Toast = "Connection réussie" });
         }
