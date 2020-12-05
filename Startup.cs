@@ -31,8 +31,8 @@ namespace USMBAPI
                 options.AddPolicy(MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://example.com",
-                                                          "http://www.contoso.com")
+                                      builder.WithOrigins("http://localhost:8100",
+                                                          "http://localhost:8200")
                                                           .AllowAnyHeader()
                                                           .AllowAnyMethod();
                                   });
