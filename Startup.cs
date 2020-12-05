@@ -28,7 +28,11 @@ namespace USMBAPI
 
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                c.AddDefaultPolicy(options => {
+                    options.AllowAnyOrigin();
+                    options.AllowAnyHeader();
+                    options.AllowAnyMethod();
+                }) ;
             });
 
             services.AddSingleton<IJwtAuthenticationManager>(new JwtAuthenticationManager(Configuration));
