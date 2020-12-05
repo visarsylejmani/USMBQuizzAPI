@@ -59,7 +59,7 @@ namespace USMBQuizzAPI.Controllers
             string token = null;
             if (ModelState.IsValid)
             {
-                Professor studentFromBDD = professorRepository.GetByEmail(student.Email);
+                Student studentFromBDD = studentRepository.GetByEmail(student.Email);
                 if (studentFromBDD != null)
                 {
                     if (PasswordHashAndVerify.VerifyHash(student.Password, "SHA512", studentFromBDD.Password))
