@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using System.Text;
 using USMBAPI.Models;
+using USMBAPI.Repositories;
 using USMBQuizzAPI.Authentication;
+using USMBQuizzAPI.Helpers;
 
 namespace USMBQuizzAPI.Controllers
 {
@@ -15,10 +14,18 @@ namespace USMBQuizzAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IJwtAuthenticationManager jwtAuthentication;
+        private readonly StudentRepository studentRepository;
+        private readonly ProfessorRepository professorRepository;
+        private readonly IConfiguration _config;
+        private readonly string salt = "JeVaisTEncrypterToiMotDePasseVisibleJeVaisTEncrypterToiMotDePasseVisibleJeVaisTEncrypterToiMotDePasseVisible";
 
-        public AuthController(IJwtAuthenticationManager jwtAuthentication)
+        public AuthController(IJwtAuthenticationManager jwtAuthentication,IConfiguration config)
         {
+            _config = config;
             this.jwtAuthentication = jwtAuthentication;
+            studentRepository = new StudentRepository(_config);
+            professorRepository = new ProfessorRepository(_config);
+
         }
         [Route("professor/login")]
         [HttpPost]
@@ -27,9 +34,20 @@ namespace USMBQuizzAPI.Controllers
         {
             string token = null;
             if (ModelState.IsValid)
-                token = jwtAuthentication.Authenticate(professor);
-            if (token == null)
-                return Unauthorized(new { Toast = "Mot de passe ou Email erroné" });
+            {
+                Professor professorFromBDD = professorRepository.GetByEmail(professor.Email);
+                if (professorFromBDD != null)
+                {
+                    if (PasswordHashAndVerify.VerifyHash(professor.Password, "SHA512", professorFromBDD.Password))
+                    {
+                        professor.Password = professorFromBDD.Password;
+                        token = jwtAuthentication.Authenticate(professor);
+                    }
+                    else return Unauthorized(new { Toast = "Mot de passe erroné" });
+                }
+                else return Unauthorized(new { Toast = "Email erroné" });
+
+            }
 
             return Ok(new { Token = token, Toast = "Connection réussie" });
         }
@@ -40,11 +58,58 @@ namespace USMBQuizzAPI.Controllers
         {
             string token = null;
             if (ModelState.IsValid)
-                token = jwtAuthentication.Authenticate(student);
-            if (token == null)
-                return Unauthorized(new { Toast = "Mot de passe ou Email erroné" });
+            {
+                Professor studentFromBDD = professorRepository.GetByEmail(student.Email);
+                if (studentFromBDD != null)
+                {
+                    if (PasswordHashAndVerify.VerifyHash(student.Password, "SHA512", studentFromBDD.Password))
+                    {
+                        student.Password = studentFromBDD.Password;
+                        token = jwtAuthentication.Authenticate(student);
+                    }
+                    else return Unauthorized(new { Toast = "Mot de passe erroné" });
+                }
+                else return Unauthorized(new { Toast = "Email erroné" });
+
+            }
 
             return Ok(new { Token = token, Toast = "Connection réussie" });
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("professor/register")]
+        public IActionResult Register([FromBody] Professor professor)
+        {
+            string token = null;
+            if (ModelState.IsValid && professorRepository.GetByEmail(professor.Email) == null)
+            {
+                string pass = PasswordHashAndVerify.ComputeHash(professor.Password, "SHA512", Encoding.UTF8.GetBytes(salt));
+                professor.Password = pass;
+                professorRepository.Add(professor);
+                token = jwtAuthentication.Authenticate(professor);
+            }
+            if (token == null)
+                return BadRequest( new { Toast = "Email déja utilisé" });
+
+            return Ok(new { Token = token, Toast = "Création de compte réussie" });
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("student/register")]
+        public IActionResult Register([FromBody] Student student)
+        {
+            string token = null;
+            if (ModelState.IsValid && studentRepository.GetByEmail(student.Email) == null)
+            {
+                var pass = PasswordHashAndVerify.ComputeHash(student.Password, "SHA512", Encoding.ASCII.GetBytes(salt));
+                student.Password = pass;
+                studentRepository.Add(student);
+                token = jwtAuthentication.Authenticate(student);
+            }
+            if (token == null)
+                return BadRequest(new { Toast = "Email déja utilisé" });
+
+            return Ok(new { Token = token, Toast = "Création de compte réussie" });
         }
     }
 }

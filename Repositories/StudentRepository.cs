@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using USMBAPI.Models;
 
 namespace USMBAPI.Repositories
@@ -61,12 +59,20 @@ namespace USMBAPI.Repositories
 
         }
 
-        internal Student Authenticate(Student student)
+        public Student Authenticate(Student student)
         {
             using IDbConnection dbConnection = GetConnection();
             string sQuery = @"SELECT * FROM `Students` WHERE `Email` = @Email AND `Password` = @Password";
             dbConnection.Open();
             return dbConnection.Query<Student>(sQuery, student).FirstOrDefault();
+        }
+
+        public Student GetByEmail(string email)
+        {
+            using IDbConnection dbConnection = GetConnection();
+            string sQuery = @"SELECT * FROM `Students` WHERE `Email` = @Email";
+            dbConnection.Open();
+            return dbConnection.Query<Student>(sQuery, new { Email = email }).FirstOrDefault();
         }
     }
 }

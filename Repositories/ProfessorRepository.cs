@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using USMBAPI.Models;
 
 namespace USMBAPI.Repositories
@@ -30,7 +28,7 @@ namespace USMBAPI.Repositories
             dbConnection.Execute(sQuery, professor);
         }
 
-        internal Professor Authenticate(Professor professor)
+        public Professor Authenticate(Professor professor)
         {
             using IDbConnection dbConnection = GetConnection();
             string sQuery = @"SELECT * FROM `Professors` WHERE `Email` = @Email AND `Password` = @Password";
@@ -68,6 +66,14 @@ namespace USMBAPI.Repositories
             dbConnection.Open();
             dbConnection.Query(sQuery, professor);
 
+        }
+
+        public Professor GetByEmail(string email)
+        {
+            using IDbConnection dbConnection = GetConnection();
+            string sQuery = @"SELECT * FROM `Professors` WHERE `Email` = @Email";
+            dbConnection.Open();
+            return dbConnection.Query<Professor>(sQuery, new { Email = email }).FirstOrDefault();
         }
     }
 }

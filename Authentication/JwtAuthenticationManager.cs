@@ -1,12 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using USMBAPI.Models;
 using USMBAPI.Repositories;
 
@@ -26,45 +23,46 @@ namespace USMBQuizzAPI.Authentication
         }
         public string Authenticate(Professor professor)
         {
-            if (professorRepository.Authenticate(professor) == null)
+            if (professorRepository.Authenticate(professor) != null)
             {
-                return null;
-            }
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenKey = Encoding.ASCII.GetBytes(_key);
-            var tokenDecriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenKey = Encoding.ASCII.GetBytes(_key);
+                var tokenDecriptor = new SecurityTokenDescriptor
                 {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
                     new Claim(ClaimTypes.Email, professor.Email)
-                }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256)
-            };
-            var token = tokenHandler.CreateToken(tokenDecriptor);
-            return tokenHandler.WriteToken(token);
+                    }),
+                    Expires = DateTime.UtcNow.AddYears(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256)
+                };
+                var token = tokenHandler.CreateToken(tokenDecriptor);
+                return tokenHandler.WriteToken(token);
+            }
+            return null;
+            
 
         }
 
         public string Authenticate(Student student)
         {
-            if (studentRepository.Authenticate(student) == null)
+            if (studentRepository.Authenticate(student) != null)
             {
-                return null;
-            }
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenKey = Encoding.ASCII.GetBytes(_key);
-            var tokenDecriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenKey = Encoding.ASCII.GetBytes(_key);
+                var tokenDecriptor = new SecurityTokenDescriptor
                 {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
                     new Claim(ClaimTypes.Email, student.Email)
-                }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256)
-            };
-            var token = tokenHandler.CreateToken(tokenDecriptor);
-            return tokenHandler.WriteToken(token);
+                    }),
+                    Expires = DateTime.UtcNow.AddYears(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256)
+                };
+                var token = tokenHandler.CreateToken(tokenDecriptor);
+                return tokenHandler.WriteToken(token);
+            }
+            return null;
         }
     }
 }
