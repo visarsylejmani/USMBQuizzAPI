@@ -26,10 +26,9 @@ namespace USMBAPI
         {
             services.AddControllers();
 
-            services.AddCors(options =>
+            services.AddCors(c =>
             {
-                options.AddPolicy("AllowAllOrigins",
-                    builder => builder.AllowAnyOrigin());
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
             });
 
             services.AddSingleton<IJwtAuthenticationManager>(new JwtAuthenticationManager(Configuration));
@@ -63,6 +62,7 @@ namespace USMBAPI
 
             app.UseRouting();
 
+            app.UseCors(options => options.AllowAnyOrigin());
 
             app.UseAuthentication();
 
