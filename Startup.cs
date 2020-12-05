@@ -20,22 +20,16 @@ namespace USMBAPI
         }
 
         public IConfiguration Configuration { get; }
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             services.AddCors(options =>
             {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                                  builder =>
-                                  {
-                                      builder.WithOrigins("http://localhost:8100",
-                                                          "http://localhost:8200")
-                                                          .AllowAnyHeader()
-                                                          .AllowAnyMethod();
-                                  });
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin());
             });
 
             services.AddSingleton<IJwtAuthenticationManager>(new JwtAuthenticationManager(Configuration));
@@ -68,6 +62,7 @@ namespace USMBAPI
             }
 
             app.UseRouting();
+
 
             app.UseAuthentication();
 
