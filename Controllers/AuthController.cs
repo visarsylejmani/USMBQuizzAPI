@@ -50,7 +50,7 @@ namespace USMBQuizzAPI.Controllers
 
             }
 
-            return Ok(new { Token = token, Toast = "Connection réussie" });
+            return Ok(new { Token = token, User = professorRepository.GetByEmail(professor.Email), Toast = "Connection réussie" });
         }
         [HttpPost]
         [AllowAnonymous]
@@ -74,7 +74,7 @@ namespace USMBQuizzAPI.Controllers
 
             }
 
-            return Ok(new { Token = token, Toast = "Connection réussie" });
+            return Ok(new { Token = token,User = studentRepository.GetByEmail(student.Email), Toast = "Connection réussie" });
         }
         [HttpPost]
         [AllowAnonymous]
@@ -92,7 +92,7 @@ namespace USMBQuizzAPI.Controllers
             if (token == null)
                 return Ok( new { Toast = "Email déja utilisé" });
 
-            return Ok(new { Token = token, Toast = "Création de compte réussie" });
+            return Ok(new { Token = token, User = studentRepository.GetByEmail(professor.Email), Toast = "Création de compte réussie" });
         }
         [HttpPost]
         [AllowAnonymous]
@@ -110,7 +110,7 @@ namespace USMBQuizzAPI.Controllers
             if (token == null)
                 return Ok(new { Toast = "Email déja utilisé" });
 
-            return Ok(new { Token = token, Toast = "Création de compte réussie" });
+            return Ok(new { Token = token,User=studentRepository.GetByEmail(student.Email), Toast = "Création de compte réussie" });
         }
     }
 }
