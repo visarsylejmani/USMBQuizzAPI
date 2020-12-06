@@ -32,7 +32,7 @@ namespace USMBAPI
                     options.AllowAnyOrigin();
                     options.AllowAnyHeader();
                     options.AllowAnyMethod();
-                }) ;
+                });
             });
 
             services.AddSingleton<IJwtAuthenticationManager>(new JwtAuthenticationManager(Configuration));

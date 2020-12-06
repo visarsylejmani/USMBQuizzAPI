@@ -44,9 +44,9 @@ namespace USMBQuizzAPI.Controllers
                         professor.Password = professorFromBDD.Password;
                         token = jwtAuthentication.Authenticate(professor);
                     }
-                    else return Unauthorized(new { Toast = "Mot de passe erroné" });
+                    else return Ok(new { Toast = "Mot de passe erroné" });
                 }
-                else return Unauthorized(new { Toast = "Email erroné" });
+                else return Ok(new { Toast = "Email erroné" });
 
             }
 
@@ -68,9 +68,9 @@ namespace USMBQuizzAPI.Controllers
                         student.Password = studentFromBDD.Password;
                         token = jwtAuthentication.Authenticate(student);
                     }
-                    else return Unauthorized(new { Toast = "Mot de passe erroné" });
+                    else return Ok(new { Toast = "Mot de passe erroné" });
                 }
-                else return Unauthorized(new { Toast = "Email erroné" });
+                else return Ok(new { Toast = "Email erroné" });
 
             }
 
@@ -90,7 +90,7 @@ namespace USMBQuizzAPI.Controllers
                 token = jwtAuthentication.Authenticate(professor);
             }
             if (token == null)
-                return BadRequest( new { Toast = "Email déja utilisé" });
+                return Ok( new { Toast = "Email déja utilisé" });
 
             return Ok(new { Token = token, Toast = "Création de compte réussie" });
         }
@@ -108,7 +108,7 @@ namespace USMBQuizzAPI.Controllers
                 token = jwtAuthentication.Authenticate(student);
             }
             if (token == null)
-                return BadRequest(new { Toast = "Email déja utilisé" });
+                return Ok(new { Toast = "Email déja utilisé" });
 
             return Ok(new { Token = token, Toast = "Création de compte réussie" });
         }
